@@ -90,3 +90,16 @@ body{
 label{
     cursor: pointer;
 }
+
+section{
+    background-color: salmon;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+}
+
+.oncheck{
+    display: none;
+}
+
+
