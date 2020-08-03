@@ -3,34 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <script src="app.js" async></script>
 
     <title>Todo App</title>
 </head>
 <body>
-    <div class="container text-center">
-        <h1 class="text-center">Todos<span class="text-primary">App</span></h1>
+    <div class="container">
+        <h1>Todo<span class="text-primary">App</span></h1>
 
-        <form id="todo">
-            <div class="form-group">
-                <input type="text" class="form-control mt-5" placeholder="Add Task">
-                <input type="submit" value="Submit" class="btn btn-primary form-control mt-3">
-            </div>
-        </form>
+        <div class="input-items">
+            <input type="text" placeholder="Add Tasks" class="inputs" id="task">
+            <button class="btn-primary" id="submit">Add Task</button>
+        </div>
 
-        <table class="table mt-5">
-            <thead>
-                <tr>
-                    <th>Todos</th>
-                    <th></th>
-                </tr>
-            </thead>
-
-            <tbody id="tbody">
-            </tbody>
-        </table>
+        <div id="todos"></div>
     </div>
 </body>
 </html>

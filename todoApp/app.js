@@ -21,19 +21,66 @@ class Todos{
     }
 
     static displayTodos(tasks){
-        const table = document.querySelector('#tbody');
-        const row = document.createElement('tr');
+        const todos = document.querySelector('#todos');
+        const div = document.createElement('div');
+        div.className = 'todos-item';
+        div.innerHTML = `
+        <input type="checkbox" class="check">
+        <section>
+            <span>${tasks.task}</span>
+            <input value="${tasks.task}" class="inp">
+        </section>
+        <a href="#" class="btn-danger"><i class="fa fa-trash"></i></a>
+        `; 
 
-        row.innerHTML = `
-        <td>${tasks}</td>
-        <td><a href="#" class="btn btn-danger btn-sm">X<a></td>
-        `;
+        todos.appendChild(div);
+    }
 
-        table.appendChild(row);
+    static clear(){
+        const input = document.querySelector('#task').value = '';
+    }
+
+    static editTask(){
+        const todos = document.querySelector('#todos');
+        const section = todos.querySelectorAll('section');
+        const inp = todos.querySelectorAll('.inp');
+        const check = todos.querySelectorAll('.check');
+
+        for(let i=0; i<section.length; i++){
+            section[i].addEventListener('click', () =>{
+                section[i].className = 'edit';
+                let input = section[i].querySelector('input')
+                input.focus();
+                input.setSelectionRange(0, input.value.length);
+            })
+
+            inp[i].addEventListener('blur', () => {
+                inp[i].previousElementSibling.innerHTML = inp[i].value;
+                inp[i].parentNode.className = '';
+            })
+
+            inp[i].addEventListener('keypress', (e)=>{
+                if(e.which === 13){
+                    inp[i].previousElementSibling.innerHTML = inp[i].value;
+                    inp[i].parentNode.className = '';
+                }
+            })
+        }
+    }
+
+    static checkTask(){
+        const todos = document.querySelector('#todos');
+        const check = todos.querySelectorAll('.check');
+
+        for(let i=0; i<check.length; i++){
+            check[i].addEventListener('click', ()=>{
+                const span = check[i].nextElementSibling.querySelector('span');
+                span.classList.toggle('oncheck');
+            })
+        }
     }
 }
 
-document.addEventListener('DOMContentLoaded', Todos.getTodos())
 
 // class TasksStorage{
 //     static getData(){
@@ -48,3 +95,13 @@ document.addEventListener('DOMContentLoaded', Todos.getTodos())
 
 //     }
 // }
+
+document.querySelector('#submit').addEventListener('click', () => {
+    const task = document.querySelector('#task').value;
+    const tasks = new Task(task);
+
+    Todos.displayTodos(tasks);
+    Todos.editTask();
+    Todos.checkTask();
+    Todos.clear();
+})
