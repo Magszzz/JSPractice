@@ -5,23 +5,15 @@ class Task {
 }
 
 // UI
+const todos = document.querySelector('#todos');
 
 class Todos{
     static getTodos(){
-        const task = [
-            {
-                task: 'code'
-            },
-            {
-                task: 'eat'
-            }
-        ]
-
-        task.forEach(t => Todos.displayTodos(t));
+        let task = TasksStorage.getData();
+        task.map((tasks) => {Todos.displayTodos(tasks)})
     }
 
     static displayTodos(tasks){
-        const todos = document.querySelector('#todos');
         const div = document.createElement('div');
         div.className = 'todos-item';
         div.innerHTML = `
@@ -30,9 +22,8 @@ class Todos{
             <span>${tasks.task}</span>
             <input value="${tasks.task}" class="inp">
         </section>
-        <a href="#" class="btn-danger"><i class="fa fa-trash"></i></a>
+        <a href="#" class="btn-danger delete"><i class="fa fa-trash deleteI"></i></a>
         `; 
-
         todos.appendChild(div);
     }
 
@@ -41,7 +32,6 @@ class Todos{
     }
 
     static editTask(){
-        const todos = document.querySelector('#todos');
         const section = todos.querySelectorAll('section');
         const inp = todos.querySelectorAll('.inp');
         const check = todos.querySelectorAll('.check');
@@ -69,39 +59,104 @@ class Todos{
     }
 
     static checkTask(){
-        const todos = document.querySelector('#todos');
         const check = todos.querySelectorAll('.check');
-
+        const span = todos.querySelectorAll('span');
         for(let i=0; i<check.length; i++){
             check[i].addEventListener('click', ()=>{
-                const span = check[i].nextElementSibling.querySelector('span');
-                span.classList.toggle('oncheck');
+                if(span[i].classList.contains('oncheck')){
+                    span[i].className = '';
+                }else{
+                    span[i].className = 'oncheck';
+                }
             })
         }
+    }
+
+    static deleteTask(target){
+        if(target.classList.contains('delete')){
+            target.parentElement.remove();
+        }else if(target.classList.contains('deleteI')){
+            target.parentElement.parentElement.remove();
+        }
+    }
+
+    static alertTask(message, color){
+        const div = document.createElement('div');
+        const form = document.querySelector('.input-items');
+        const container = document.querySelector('.container');
+        div.className = color;
+        div.innerHTML = message;
+        container.insertBefore(div, form);
+
+        setInterval(() => {
+            div.remove();
+        }, 1500);
     }
 }
 
 
-// class TasksStorage{
-//     static getData(){
+class TasksStorage{
+    static getData(){
+        let tasks;
+        if(localStorage.getItem('Tasks') === null){
+            tasks = [];
+        }else{
+            tasks = JSON.parse(localStorage.getItem('Tasks'));
+        }
 
-//     }
+        return tasks;
+    }
 
-//     static displaydata(){
+    static displaydata(task){
+        let tasks = TasksStorage.getData();
+        tasks.push(task);
 
-//     }
+        localStorage.setItem('Tasks', JSON.stringify(tasks));
+    }
 
-//     static deleteData(){
+    static deleteData(target){
+        let tasks = TasksStorage.getData();
 
-//     }
-// }
+        tasks.forEach((task,index) => {
+            if(task.task === target){
+                tasks.splice(index, 1);
+            }
+        })
+
+        localStorage.setItem('Tasks', JSON.stringify(tasks));
+    }
+}
+
+document.addEventListener('DOMContentLoaded', Todos.getTodos());
 
 document.querySelector('#submit').addEventListener('click', () => {
     const task = document.querySelector('#task').value;
-    const tasks = new Task(task);
 
-    Todos.displayTodos(tasks);
-    Todos.editTask();
-    Todos.checkTask();
-    Todos.clear();
+    if(task === ''){
+        Todos.alertTask('Input Has No Value', 'alert-danger')
+    }else{
+        const tasks = new Task(task);
+        Todos.displayTodos(tasks);
+        TasksStorage.displaydata(tasks);
+        Todos.alertTask('Tasks Completely Added', 'alert-success')
+        Todos.editTask();
+        Todos.checkTask();
+        Todos.clear();
+    }
+})
+
+todos.addEventListener('click', e => {
+    const target = e.target
+    let text;
+    if(target.classList.contains('delete')){
+        let t =  target.previousElementSibling.querySelector('span');
+        text = t.innerHTML;
+    }else if(target.classList.contains('deleteI')){
+        let t = target.parentElement.previousElementSibling.querySelector('span');
+        text = t.innerHTML;
+    }
+
+    Todos.deleteTask(target);
+    TasksStorage.deleteData(text);
+    Todos.alertTask('Tasks Completely Removed', 'alert-success')
 })
