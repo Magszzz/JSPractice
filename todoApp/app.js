@@ -35,6 +35,8 @@ class Todos{
         const section = todos.querySelectorAll('section');
         const inp = todos.querySelectorAll('.inp');
         const check = todos.querySelectorAll('.check');
+        const changeData = TasksStorage.getData();
+        let text;
 
         for(let i=0; i<section.length; i++){
             section[i].addEventListener('click', () =>{
@@ -53,6 +55,7 @@ class Todos{
                 if(e.which === 13){
                     inp[i].previousElementSibling.innerHTML = inp[i].value;
                     inp[i].parentNode.className = '';
+                    text = inp[i].value;
                 }
             })
         }
@@ -147,16 +150,18 @@ document.querySelector('#submit').addEventListener('click', () => {
 
 todos.addEventListener('click', e => {
     const target = e.target
-    let text;
-    if(target.classList.contains('delete')){
-        let t =  target.previousElementSibling.querySelector('span');
-        text = t.innerHTML;
-    }else if(target.classList.contains('deleteI')){
-        let t = target.parentElement.previousElementSibling.querySelector('span');
-        text = t.innerHTML;
-    }
+    if(target.classList.contains('delete') || target.classList.contains('deleteI')){
+        let text;
+        if(target.classList.contains('delete')){
+            let t =  target.previousElementSibling.querySelector('span');
+            text = t.innerHTML;
+        }else if(target.classList.contains('deleteI')){
+            let t = target.parentElement.previousElementSibling.querySelector('span');
+            text = t.innerHTML;
+        }
 
-    Todos.deleteTask(target);
-    TasksStorage.deleteData(text);
-    Todos.alertTask('Tasks Completely Removed', 'alert-success')
+        Todos.deleteTask(target);
+        TasksStorage.deleteData(text);
+        Todos.alertTask('Tasks Completely Removed', 'alert-success')
+    }
 })
