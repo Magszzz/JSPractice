@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-16">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="app.js" async></script>
+    <link rel="stylesheet" href="style.css">
+
+    <title>Random Number Generator</title>
+</head>
+<body>
+    <div class="container">
+         <h1>Random Number</h1>
+
+         <table>
+             <tbody>
+                 <tr>
+                     <td>
+                         <label for="min">Minimum: </label>
+                    </td>
+                     <td>
+                        <input type="number" value="0" maxlength="12" minlength="1" id="min">
+                     </td>
+                 </tr>
+                 <tr>
+                     <td>
+                         <label for="max">Maximum: </label>
+                    </td>
+                     <td>
+                        <input type="number" value="100" maxlength="12" minlength="1" id="max"> 
+                     </td>
+                 </tr>
+
+                 <tr>
+                     <td>
+                         <button id="gen">Generate</button>
+                    </td>
+                     <td>
+                         <input type="number" value="0" id="random">
+                     </td>
+                 </tr>
+             </tbody>
+         </table>
+    </div>
+</body>
+</html>
