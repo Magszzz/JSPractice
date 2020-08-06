@@ -25,6 +25,7 @@ class Todos{
         <a href="#" class="btn-danger delete"><i class="fa fa-trash deleteI"></i></a>
         `; 
         todos.appendChild(div);
+        Todos.editTask();
     }
 
     static clear(){
@@ -36,7 +37,6 @@ class Todos{
         const inp = todos.querySelectorAll('.inp');
         const check = todos.querySelectorAll('.check');
         const changeData = TasksStorage.getData();
-        let text;
 
         for(let i=0; i<section.length; i++){
             section[i].addEventListener('click', () =>{
@@ -58,7 +58,20 @@ class Todos{
                     text = inp[i].value;
                 }
             })
+
+            section[i].addEventListener('click', () =>{
+                changeData.forEach((data, index) => {
+                    const newTask = new Task(inp[i].value);
+                    if(data.task === section[i].querySelector('span').textContent){
+                        changeData.splice(index, 1);
+                        changeData.push(newTask);
+                    }
+                })
+            })
         }
+
+
+        localStorage.setItem('Tasks', JSON.stringify(changeData))
     }
 
     static checkTask(){
@@ -142,7 +155,6 @@ document.querySelector('#submit').addEventListener('click', () => {
         Todos.displayTodos(tasks);
         TasksStorage.displaydata(tasks);
         Todos.alertTask('Tasks Completely Added', 'alert-success')
-        Todos.editTask();
         Todos.checkTask();
         Todos.clear();
     }
