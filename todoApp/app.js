@@ -58,19 +58,7 @@ class Todos{
                     text = inp[i].value;
                 }
             })
-
-            section[i].addEventListener('click', () =>{
-                changeData.forEach((data, index) => {
-                    const newTask = new Task(inp[i].value);
-                    if(data.task === section[i].querySelector('span').textContent){
-                        changeData.splice(index, 1);
-                        changeData.push(newTask);
-                    }
-                })
-            })
         }
-
-
         localStorage.setItem('Tasks', JSON.stringify(changeData))
     }
 
