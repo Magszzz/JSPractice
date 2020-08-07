@@ -1,0 +1,14 @@
+{
+    "manifest_version": 2,
+    "name": "Websites Launcher",
+    "description": "Quick Launch Different Websites",
+    "version": "1.0",
+    "icons": {
+        "128": "logo_128.png"
+    },
+    "browser_action": {
+        "default_icon": "logo_19.png",
+        "default_popup": "popup.html"
+    },
+    "permissions" : ["activeTab"]
+}
